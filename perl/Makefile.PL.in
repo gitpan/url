@@ -1,0 +1,9 @@
+# Generated automatically from Makefile.PL.in by configure.
+# File : Makefile.PL
+use ExtUtils::MakeMaker;
+WriteMakefile(
+	'VERSION' => '@VERSION@',
+	'NAME'	 => 'url',
+	'LIBS'   => ["-L@prefix@/lib -L../ -lurl"],
+	'OBJECT' => 'url_wrap.o'
+);

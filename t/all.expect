@@ -1,0 +1,261 @@
+#
+# 
+#
+url: 
+furl: 
+#
+# ?foo=rugue&bar
+#
+url: ?foo=rugue&bar
+furl: ?foo=rugue&bar
+#
+# ;foo=rugue&bar
+#
+url: ;foo%3Drugue%26bar
+furl: ;foo%3Drugue%26bar
+#
+# #fragment
+#
+url: #fragment
+furl: 
+#
+# http://:8080/
+#
+url_cannonicalize: http://:8080/ has null netloc
+#
+# http://loic:foo34@/#frag
+#
+url_cannonicalize: in http://loic:foo34@#frag, passwd cannot be set in relative url, ignored
+url_cannonicalize: in http://loic@#frag, user cannot be set in relative url, ignored
+url: http:#frag
+furl: http:
+#
+# http:#frag
+#
+url: http:#frag
+furl: http:
+#
+# bar/foo/
+#
+url: bar/foo/
+furl: bar/foo/
+#
+# /bar/foo/
+#
+url: /bar/foo/
+furl: /bar/foo/
+#
+# ../bar/../foo/
+#
+url: ../bar/../foo/
+furl: ../bar/../foo/
+#
+# http:/bar/foo
+#
+url: http:/bar/foo
+furl: http:/bar/foo
+#
+# http:bar/foo
+#
+url: http:bar/foo
+furl: http:bar/foo
+#
+# http://www.ceic.com/
+#
+url: http://www.ceic.com/
+furl: http:/www.ceic.com/
+#
+# HTTP://www.ceic.com/
+#
+url: http://www.ceic.com/
+furl: http:/www.ceic.com/
+#
+# HTTP://www.CEIC.com/
+#
+url: http://www.ceic.com/
+furl: http:/www.ceic.com/
+#
+# http://www.ceic.com./
+#
+url: http://www.ceic.com/
+furl: http:/www.ceic.com/
+#
+# http://www.ceic.com:8400/
+#
+url: http://www.ceic.com:8400/
+furl: http:/www.ceic.com:8400/
+#
+# http://www.ceic.com:80/
+#
+url: http://www.ceic.com:80/
+furl: http:/www.ceic.com:80/
+#
+# http://www.ceic.com:8400/cgi.pl?foo
+#
+url: http://www.ceic.com:8400/cgi.pl?foo
+furl: http:/www.ceic.com:8400/cgi.pl?foo
+#
+# http://www.ceic.com:8400/cgi.pl;bar?foo
+#
+url: http://www.ceic.com:8400/cgi.pl;bar?foo
+furl: http:/www.ceic.com:8400/cgi.pl;bar?foo
+#
+# http://www.ceic.com:8400/foo/bar/nitz.html#frob
+#
+url: http://www.ceic.com:8400/foo/bar/nitz.html#frob
+furl: http:/www.ceic.com:8400/foo/bar/nitz.html
+#
+# http://loic:foobar@www.ceic.com:8400/foo/bar/nitz.html#frob
+#
+url: http://loic:foobar@www.ceic.com:8400/foo/bar/nitz.html#frob
+furl: http:/loic:foobar@www.ceic.com:8400/foo/bar/nitz.html
+#
+# http://john:lec%7erre@www.ceic.com/
+#
+url: http://john:lec~rre@www.ceic.com/
+furl: http:/john:lec~rre@www.ceic.com/
+#
+# http://redford@www.ceic.com:8400/
+#
+url: http://redford@www.ceic.com:8400/
+furl: http:/redford@www.ceic.com:8400/
+#
+# http://redford@www.ceic.com:8400/:foo&'bar@=/dir/file.html
+#
+url: http://redford@www.ceic.com:8400/%3Afoo%26%27bar%40%3D/dir/file.html
+furl: http:/redford@www.ceic.com:8400/%3Afoo%26%27bar%40%3D/dir/file.html
+#
+# http://red%2fgros@www.ceic.com:8400/
+#
+url: http://red%2Fgros@www.ceic.com:8400/
+furl: http:/red%2Fgros@www.ceic.com:8400/
+#
+# http://redgros@www.c%2feic.com:8400/
+#
+url_cannonicalize_1: illegal char / in context SPEC_NETLOC
+#
+# http://www.ceic.com:8400/cgi-bin/script?bar/foo#ta/g
+#
+url: http://www.ceic.com:8400/cgi-bin/script?bar%2Ffoo#ta%2Fg
+furl: http:/www.ceic.com:8400/cgi-bin/script?bar%2Ffoo
+#
+# ttp://www.ceic.com/
+#
+#
+# http://www.ceic.com../cgi-bin/script
+#
+url: http://www.ceic.com/cgi-bin/script
+furl: http:/www.ceic.com/cgi-bin/script
+#
+# http://../dir/
+#
+url_cannonicalize: http:///dir/ has null netloc
+#
+# http://www.ceic.com/dir//file.html
+#
+url: http://www.ceic.com/dir/file.html
+furl: http:/www.ceic.com/dir/file.html
+#
+# http://www.ceic.com/©t©/
+#
+url: http://www.ceic.com/%A9t%A9/
+furl: http:/www.ceic.com/%A9t%A9/
+#
+# http://www.ceic.com/t/
+#
+url: http://www.ceic.com/%01t%03/
+furl: http:/www.ceic.com/%01t%03/
+#
+# http://www.ceic.com/%2F/dir/
+#
+url: http://www.ceic.com/%2F/dir/
+furl: http:/www.ceic.com/%2F/dir/
+#
+# http://www.ceic.com/dir/../file
+#
+url: http://www.ceic.com/file
+furl: http:/www.ceic.com/file
+#
+# http://www.ceic.com/dir/./file
+#
+url: http://www.ceic.com/dir/file
+furl: http:/www.ceic.com/dir/file
+#
+# http://www.ceic.com/./file
+#
+url: http://www.ceic.com/file
+furl: http:/www.ceic.com/file
+#
+# http://www.ceic.com/file/.
+#
+url: http://www.ceic.com/file/
+furl: http:/www.ceic.com/file/
+#
+# http://www.ceic.com/file/./
+#
+url: http://www.ceic.com/file/
+furl: http:/www.ceic.com/file/
+#
+# http://www.ceic.com/dir1/dir2/..
+#
+url: http://www.ceic.com/dir1/
+furl: http:/www.ceic.com/dir1/
+#
+# http://www.ceic.com/file/../dir/../../foo
+#
+url: http://www.ceic.com/foo
+furl: http:/www.ceic.com/foo
+#
+# /../foo.html http://w3.austin.ibm.com/
+#
+url: /../foo.html
+furl: /../foo.html
+url base: http://w3.austin.ibm.com/
+url absolute: http://w3.austin.ibm.com/foo.html
+#
+# /bar/../foo.html http://w3.austin.ibm.com/
+#
+url: /bar/../foo.html
+furl: /bar/../foo.html
+url base: http://w3.austin.ibm.com/
+url absolute: http://w3.austin.ibm.com/foo.html
+#
+# document.html http://www.senat.fr/
+#
+url: document.html
+furl: document.html
+url base: http://www.senat.fr/
+url absolute: http://www.senat.fr/document.html
+#
+# #frag http://www.senat.fr/
+#
+url: #frag
+furl: 
+url base: http://www.senat.fr/
+url absolute: http://www.senat.fr/#frag
+#
+# /document.html http://www.senat.fr/iway/
+#
+url: /document.html
+furl: /document.html
+url base: http://www.senat.fr/iway/
+url absolute: http://www.senat.fr/document.html
+#
+# //www.curie.u-psud.fr~boureux/umr146/ http://www.curie.fr/
+#
+url: /www.curie.u-psud.fr~boureux/umr146/
+furl: /www.curie.u-psud.fr~boureux/umr146/
+url base: http://www.curie.fr/
+url absolute: http://www.curie.fr/www.curie.u-psud.fr~boureux/umr146/
+#
+# http://www.foo.bar/bar//foo/file//
+#
+url: http://www.foo.bar/bar/foo/file/
+furl: http:/www.foo.bar/bar/foo/file/
+#
+# //bar/////bbobo/grunt.html http://www.pire.org/
+#
+url: /bar/////bbobo/grunt.html
+furl: /bar/////bbobo/grunt.html
+url base: http://www.pire.org/
+url absolute: http://www.pire.org/bar/bbobo/grunt.html

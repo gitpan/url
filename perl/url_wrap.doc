@@ -1,0 +1,183 @@
+url_wrap.c
+
+[ Module : url, Package : url ]
+
+
+$URL_INFO_CANNONICAL = 0x0001
+        [ Constant: int  ]
+
+$URL_INFO_URL = 0x0002
+        [ Constant: int  ]
+
+$URL_INFO_FURL = 0x0004
+        [ Constant: int  ]
+
+$URL_INFO_RELATIVE = 0x0008
+        [ Constant: int  ]
+
+$URL_INFO_RELATIVE_PATH = 0x0010
+        [ Constant: int  ]
+
+$URL_INFO_EMPTY = 0x0020
+        [ Constant: int  ]
+
+$URL_INFO_HTTP = 0x0040
+        [ Constant: int  ]
+
+$URL_INFO_FTP = 0x0080
+        [ Constant: int  ]
+
+$URL_INFO_NEWS = 0x0100
+        [ Constant: int  ]
+
+$URL_INFO_FILE = 0x0200
+        [ Constant: int  ]
+
+$URL_INFO_ROBOTS = 0x0400
+        [ Constant: int  ]
+
+$URL_INFO_SCHEME_MASK = 0x03c0
+        [ Constant: int  ]
+
+1.  class url_t
+===============
+[ created from struct url_t ]
+
+
+$this->{info}
+        [ Member data: returns int  ]
+
+$this->{scheme}
+        [ Member data: returns char * ]
+
+$this->{host}
+        [ Member data: returns char * ]
+
+$this->{port}
+        [ Member data: returns char * ]
+
+$this->{path}
+        [ Member data: returns char * ]
+
+$this->{params}
+        [ Member data: returns char * ]
+
+$this->{query}
+        [ Member data: returns char * ]
+
+$this->{frag}
+        [ Member data: returns char * ]
+
+$this->{user}
+        [ Member data: returns char * ]
+
+$this->{passwd}
+        [ Member data: returns char * ]
+
+$this->{pool}
+        [ Member data: returns char * ]
+
+$this->{pool_size}
+        [ Member data: returns int  ]
+
+$this->{furl}
+        [ Member data: returns char * ]
+
+$this->{furl_size}
+        [ Member data: returns int  ]
+
+$this->{url}
+        [ Member data: returns char * ]
+
+$this->{url_size}
+        [ Member data: returns int  ]
+
+$this->{robots}
+        [ Member data: returns char * ]
+
+$this->{robots_size}
+        [ Member data: returns int  ]
+
+----------
+
+$URL_NOT_CANNONICAL = -1
+        [ Constant: int  ]
+
+$URL_CANNONICAL = 0
+        [ Constant: int  ]
+
+url_port(object);
+        [ returns char * ]
+
+url_alloc(url,url_length);
+        [ returns url_t * ]
+
+url_realloc(object,url,url_length);
+        [ returns int  ]
+
+url_cannonicalize(object);
+        [ returns int  ]
+
+url_abs(base,relative_string,relative_length);
+        [ returns url_t * ]
+
+url_abs_1(base,relative);
+        [ returns url_t * ]
+
+url_netloc(object);
+        [ returns char * ]
+
+url_auth(object);
+        [ returns char * ]
+
+url_all_path(object);
+        [ returns char * ]
+
+url_copy(to,from);
+        [ returns void  ]
+
+url_free(object);
+        [ returns void  ]
+
+url_parse(object);
+        [ returns void  ]
+
+url_dump(object);
+        [ returns void  ]
+
+url_furl(object);
+        [ returns char * ]
+
+url_url(object);
+        [ returns char * ]
+
+url_robots(object);
+        [ returns char * ]
+
+url2object(url,url_length);
+        [ returns url_t * ]
+
+$URL_FURL_REAL_PATH = 1
+        [ Constant: int  ]
+
+$URL_FURL_NOP = 0
+        [ Constant: int  ]
+
+url_furl_string(url,url_length,flag);
+        [ returns char * ]
+
+$URL_STRING_FURL_STYLE = 0x01
+        [ Constant: int  ]
+
+$URL_STRING_URL_STYLE = 0x02
+        [ Constant: int  ]
+
+$URL_STRING_ROBOTS_STYLE = 0x04
+        [ Constant: int  ]
+
+$URL_STRING_URL_NOHASH_STYLE = 0x08
+        [ Constant: int  ]
+
+url_cannonicalize_string(url,url_length,flag);
+        [ returns char * ]
+

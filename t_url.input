@@ -1,0 +1,202 @@
+#
+# ! comments are # alone or # followed by space
+#
+# empty url
+#
+
+#
+# Relative URL : query only
+#
+?foo=rugue&bar
+#
+# Relative URL : params only
+#
+;foo=rugue&bar
+#
+# Relative URL : frag only
+#
+#fragment
+#
+# Null domain is rejected
+#
+http://:8080/
+#
+# Relative URL : user + passwd  and fragment 
+#
+http://loic:foo34@/#frag
+#
+# Relative URL : scheme and frag
+#
+http:#frag
+#
+# Relative URL : relative path
+#
+bar/foo/
+#
+# Relative URL : absolute path
+#
+/bar/foo/
+#
+# Relative URL : path containing .. and . are not reduced
+#
+../bar/../foo/
+#
+# Relative URL : include scheme and absolute path
+#
+http:/bar/foo
+#
+# Relative URL : include scheme and relative path
+#
+http:bar/foo
+#
+# Normal URL
+#
+http://www.ceic.com/
+#
+# Upper case scheme
+#
+HTTP://www.ceic.com/
+#
+# Upper case domain
+#
+HTTP://www.CEIC.com/
+#
+# Trailing dot in domain
+#
+http://www.ceic.com./
+#
+# Port number specified
+#
+http://www.ceic.com:8400/
+#
+# Superfluous port number specified
+#
+http://www.ceic.com:80/
+#
+# query argument
+#
+http://www.ceic.com:8400/cgi.pl?foo
+#
+# query and params arguments
+#
+http://www.ceic.com:8400/cgi.pl;bar?foo
+#
+# Fragment
+#
+http://www.ceic.com:8400/foo/bar/nitz.html#frob
+#
+# Full authentification
+#
+http://loic:foobar@www.ceic.com:8400/foo/bar/nitz.html#frob
+#
+# Full authentification
+#
+http://john:lec%7erre@www.ceic.com/
+#
+# Only user name
+#
+http://redford@www.ceic.com:8400/
+#
+# Reserverd chars in path
+#
+http://redford@www.ceic.com:8400/:foo&'bar@=/dir/file.html
+#
+# / in user name
+#
+http://red%2fgros@www.ceic.com:8400/
+#
+# / in domain
+#
+http://redgros@www.c%2feic.com:8400/
+#
+# / in query part
+#
+http://www.ceic.com:8400/cgi-bin/script?bar/foo#ta/g
+#
+# bad scheme
+#
+ttp://www.ceic.com/
+#
+# Trailing dots in domain name are suppressed
+#
+http://www.ceic.com../cgi-bin/script
+#
+# Null domain name is rejected
+#
+http://../dir/
+#
+# Double / in path is reduced
+#
+http://www.ceic.com/dir//file.html
+#
+# 8 bit char in path name
+#
+http://www.ceic.com/©t©/
+#
+# Control chars in path name
+#
+http://www.ceic.com/t/
+#
+# Coded / in path name
+#
+http://www.ceic.com/%2F/dir/
+#
+# .. in path
+#
+http://www.ceic.com/dir/../file
+#
+# . in path
+#
+http://www.ceic.com/dir/./file
+#
+# ./ at the beginning
+#
+http://www.ceic.com/./file
+#
+# /. at the end
+#
+http://www.ceic.com/file/.
+#
+# /./ at the end
+#
+http://www.ceic.com/file/./
+#
+# /.. at the end
+#
+http://www.ceic.com/dir1/dir2/..
+#
+# too many .. block at root
+#
+http://www.ceic.com/file/../dir/../../foo
+#
+# Path reduction in relative URL
+#
+/../foo.html http://w3.austin.ibm.com/
+/bar/../foo.html http://w3.austin.ibm.com/
+#
+# relative path converted to absolute using base
+#
+document.html http://www.senat.fr/
+#
+# relative frag converted to absolute using base
+#
+#frag http://www.senat.fr/
+#
+# relative path converted to absolute using base, 
+# the relative path starts with a /
+#
+/document.html http://www.senat.fr/iway/
+#
+# Double slash at the beginning of the relative URL
+# (it was bugous, www.curie.u-psud.fr~boureux being taken
+#  as a netloc, in the relative URL).
+#
+//www.curie.u-psud.fr~boureux/umr146/ http://www.curie.fr/
+#
+# Strip extra / in path.
+#
+http://www.foo.bar/bar//foo/file//
+#
+# Strip extra / in path for relative URLs
+#
+//bar/////bbobo/grunt.html http://www.pire.org/

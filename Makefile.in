@@ -1,0 +1,71 @@
+#
+#   Copyright (C) 1997, 1998
+#   	Free Software Foundation, Inc.
+#
+#   This program is free software; you can redistribute it and/or modify it
+#   under the terms of the GNU General Public License as published by the
+#   Free Software Foundation; either version 2, or (at your option) any
+#   later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+#
+LDFLAGS = @LDFLAGS@
+LDLIBS =  @LIBS@ -L. -lurl
+CFLAGS = -I. @DEFS@ @CPPFLAGS@ 
+prefix=	@prefix@
+exec_prefix=@exec_prefix@
+BINDIR = @bindir@
+LIBDIR = @libdir@
+INCLUDEDIR = @includedir@
+MANDIR = @mandir@
+
+LIB_OBJ = liburl.a(url.o) liburl.a(mpath.o) liburl.a(strlower.o) liburl.a(salloc.o) liburl.a(split.o)
+
+LIB = liburl.a
+
+all: $(LIB)
+	if [ -f perl/Makefile.PL ] ; then cd perl ; perl Makefile.PL ; fi
+	$(MAKE) -C perl all
+
+install: all
+	if [ ! -d $(LIBDIR) ] ; then mkdir -p $(LIBDIR) ; fi
+	if [ ! -d $(INCLUDEDIR) ] ; then mkdir -p $(INCLUDEDIR) ; fi
+	if [ ! -d $(BINDIR) ] ; then mkdir -p $(BINDIR) ; fi
+	if [ ! -d $(MANDIR)/man3 ] ; then mkdir -p $(MANDIR)/man3 ; fi
+	cp -p $(LIB) $(LIBDIR)
+	cp -p url.h $(INCLUDEDIR)
+	cp -p url.3 $(MANDIR)/man3/
+	$(MAKE) -C perl install
+
+clean:
+	if [ -f perl/Makefile ] ; then $(MAKE) -C perl clean ; fi
+	rm -f $(LIB) *.o t/*.out t_url
+
+realclean: clean
+	rm -f Makefile config.cache config.h config.log config.status *~ perl/*~
+	rm -f perl/Makefile.PL perl/Makefile.old
+
+test: t_url
+	#
+	# If tests not successfull some diff output will show
+	#
+	url_test
+	#
+	# Perl tests 
+	#
+	$(MAKE) -C perl test
+
+pack:
+	$(MAKE) clean realclean
+	cd .. ; gtar -zchvf url-@VERSION@.tar.gz url-@VERSION@
+
+$(LIB): $(LIB_OBJ)
+
+.PHONY: test

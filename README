@@ -1,0 +1,34 @@
+Version 1.0
+
+url is a library that analyses URLs and transform them. It is designed to
+be fast and occupy as few memory as possible. The basic usage of this
+library is to transform an URL into a structure with one field for each
+component of the URL and vice versa.
+
+It is available as a C library and as a Perl library.
+
+. Requirements
+	ANSI C compiler
+  	perl-5.004 or higher
+
+. To compile and install
+
+	./configure
+	make install
+
+. To test
+
+	make test
+
+. The documentation is in url.3 manual page and contains
+  a few examples.
+
+
+Loic Dachary
+Civil Engineering in Cyberspace
+36 rue du Sentier
+75002 Paris
+Tel: +33 1 55 34 33 50
+Fax: +33 1 42 33 05 06
+http://www.ecila.fr/
+loic@ceic.com

@@ -1,0 +1,367 @@
+'''
+'''   Copyright (C) 1997, 1998
+'''   	Free Software Foundation, Inc.
+'''
+'''   This program is free software; you can redistribute it and/or modify it
+'''   under the terms of the GNU General Public License as published by the
+'''   Free Software Foundation; either version 2, or (at your option) any
+'''   later version.
+'''
+'''   This program is distributed in the hope that it will be useful,
+'''   but WITHOUT ANY WARRANTY; without even the implied warranty of
+'''   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+'''   GNU General Public License for more details.
+'''
+'''   You should have received a copy of the GNU General Public License
+'''   along with this program; if not, write to the Free Software
+'''   Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
+'''
+'''
+''' $Header$
+'''
+'''
+''' Copyright 1995, 1996, 1997, 1998 Civil Engineering in Cyberspace
+'''
+.TH url 3 local
+.SH NAME
+url \-
+a set of functions to manipulate URLs
+
+.SH DESCRIPTION
+The header file for the library is
+.B #include <url.h>
+and the library may be linked using
+.B -lurl.
+.PP
+.B url
+is a library that analyses URLs and transform them. It is designed to
+be fast and occupy as few memory as possible. The basic usage of this
+library is to transform an URL into a structure with one field for each
+component of the URL and vice versa.
+
+.SH FURL
+It is sometimes convinient to convert an URL into a path name. Some
+functions of the
+.B url
+library provide such a conversion (url_furl for instance). These path names
+are called FURL (File equivalent of an URL) for short. Here is a description
+of the transformation.
+.nf
+.ft CW
+ http://www.ina.fr:700/imagina/index.html#queau
+   |    \\____________/ \\________________/\\____/
+   |          |              |               lost
+   |          |              |
+   |          |              |
+  /           |              |
+  |           |              |
+  |           |              |
+  |           |              |
+ /            |              |
+ |   /^^^^^^^^^^^^^\\/^^^^^^^^^^^^^^^^\\
+http/www.ina.fr:700/imagina/index.html
+.ft R
+.fi
+
+.SH STRUCTURE
+The
+.B url_t
+type is a structure describing the URL. The fields may be adressed directly.
+However a few access functions implement some usefull transformations and
+may be used (see
+.B url_port
+or
+.B url_netloc
+below for instance). All the fields are character strings whose size is
+exactly the size of the string they contain. One can safely override the
+values contained in the fields, as long as the replacement string has a 
+size lower or equal to the original size. If the replacement string is
+larger, one can safely set the pointer of a field to some arbitrary string.
+This operation will not lose any previously allocated space.
+
+.TP
+.B info
+A bit field carrying information about the URL. Each bit has a corresponding
+define that have the following meaning.
+
+.PP
+.B URL_INFO_CANNONICAL
+Set if the URL is in cannonical form.
+
+.PP
+.B URL_INFO_RELATIVE
+Set if the URL is a relative URL (does not start with {http,..}://).
+
+.PP
+.B  URL_INFO_RELATIVE_PATH
+Set if the URL is a relative URL and the path does not start with a /.
+
+.PP
+.B URL_INFO_EMPTY
+Set if the URL is the empty string.
+
+.PP
+.B URL_INFO_HTTP
+Set if the URL scheme is http.
+
+.PP
+.B URL_INFO_FTP
+Set if the URL scheme is ftp.
+
+.PP
+.B URL_INFO_NEWS
+Set if the URL scheme is news.
+
+.PP
+.B URL_INFO_FILE
+Set if the URL scheme is file.
+
+.PP
+.B URL_INFO_ROBOTS
+Set if the URL is an http robots.txt file.
+
+.TP
+.B scheme
+The scheme of the URL (http, ftp, file or news).
+
+.TP
+.B host
+The host name part of the URL.
+
+.TP
+.B port
+The port number associated to host, if any.
+
+.TP
+.B path
+The path name of the URL.
+
+.TP
+.B params
+The parameters of the URL (i.e. what is found after the ; in the path).
+
+.TP
+.B query
+The query part of a cgi-bin call (i.e. what is found after the ? in the path).
+
+.TP
+.B frag
+The fragement of the document (i.e. what is found after the # in the path).
+
+.TP
+.B user
+If authentication information is set, the user name.
+
+.TP
+.B passwd
+If authentication information is set, the password.
+
+.SH FUNCTIONS
+.TP
+.B url_t* url_alloc(char* url, int url_length)
+The
+.B url
+is splitted into fields and the corresponding
+.B url_t
+structure is returned. The structure is allocated using
+.B malloc.
+The URL is put in cannonical form. If it cannot be put in cannonical
+form an error message is printed on stderr and a null pointer is
+returned.
+
+.TP 
+.B url_t* url2object(char* url, int url_length)
+The
+.B url
+is splitted into fields and the corresponding
+.B url_t
+structure is returned.
+The returned structure is statically allocated and must not be freed.
+The URL is put in cannonical form. If it cannot be put in cannonical
+form an error message is printed on stderr and a null pointer is
+returned.
+
+.TP
+.B int url_realloc(url_t* object, char* url, int url_length)
+The
+.B url
+is splitted into fields in the previously allocated
+.B object
+structure. The URL is put in cannonical form and
+.B URL_CANNONICAL.
+If it cannot be put
+in cannonical form, nothing is done and
+.B URL_NOT_CANNONICAL
+is returned.
+
+.TP
+.B void url_free(url_t* object)
+The
+.B object
+previously allocated by
+.B url_alloc
+is deallocated.
+
+.TP
+.B url_t* url_abs(url_t* base, char* relative_string, int relative_length)
+Transform the relative URL
+.B relative_string
+into an absolute URL using
+.B base
+as the base URL. The returned
+.B url_t
+object is allocated statically and must not be freed.
+
+.TP
+.B url_abs_1(url_t* base, url_t* relative)
+Transform the relative URL
+.B relative
+into an absolute URL using
+.B base
+as the base URL. The returned
+.B url_t
+object is allocated statically and must not be freed.
+
+.TP
+.B char* url_port(url_t* object)
+returns the value of the
+.B port
+field of the
+.B object.
+If the
+.B port
+field is empty, returns the default port for the corresponding scheme.
+For instance, if the scheme is
+.B http
+the
+.B "80"
+string is returned.
+The returned string is statically allocated and must not be freed.
+
+.TP
+.B char* url_netloc(url_t* object)
+returns a concatenation of the
+.B host
+and
+.B port
+field, separated by a
+.B :.
+If the
+.B host
+field is not set, the null pointer is returned and a message
+is printed on stderr.
+The returned string is statically allocated and must not be freed.
+
+.TP
+.B char* url_auth(url_t* object)
+returns a concatenation of the
+.B user
+and
+.B passwd
+field, separated by a
+.B :
+or an empty string if any of them is not set.
+The returned string is statically allocated and must not be freed.
+
+.TP
+.B char* url_all_path(url_t* object)
+returns a concatenation of the
+.B path, params
+and
+.B query
+fields in the form
+.B path;params?query.
+The returned string is statically allocated and must not be freed.
+
+.TP
+.B char* url_furl(url_t* object)
+returns a string containing the FURL (File equivalent of an URL) built
+from 
+.B object.
+The returned string is statically allocated and must not be freed.
+
+.TP
+.B char* url_url(url_t* object)
+returns a string containing the URL built
+from 
+.B object.
+The returned string is statically allocated and must not be freed.
+
+.TP
+.B char* url_robots(url_t* object)
+returns a string containing the URL of the robots.txt file corresponding
+to the URL contained in object. For instance, if the URL contained in 
+object is 
+.B http://www.foo.com/dir/dir/file.html
+the returned string will be
+.B http://www.foo.com/robots.txt.
+The returned string is statically allocated and must not be freed.
+
+.TP
+.B char* url_cannonicalize_string(char* url, int url_length, int flag)
+returns the cannonical form of the
+.B url
+given in argument. The cannonical form is formatted according to the 
+value of 
+.B flag.
+Values of flag are bits that can be ored together.
+
+.B URL_STRING_FURL_STYLE
+return a FURL, 
+.B URL_STRING_URL_STYLE
+return an URL,
+.B URL_STRING_ROBOTS_STYLE
+return the corresponding robots.txt URL,
+.B URL_STRING_URL_NOHASH_STYLE
+do not include the frag in the returned string.
+
+.SH CANNONICAL FORM
+The cannonical form of an URL is an arbitrary choice to code all the
+possible variations of the same URL in one string. For instance
+http://www.foo.com/abc"def.html will be transformed to 
+http://www.foo.com/abc%22def.html. Most of the transformations follow
+the instructions found in
+.B rfc1738
+but some of them don't. 
+.PP
+Additionally, when the path of the URL contains dots and double dots, it
+is reduced. For instance
+.B http://www.foo.com/dir/.././file.html
+will be transformed to
+.B http://www.foo.com/file.html.
+
+.SH EXAMPLES
+.PP
+.B Show cannonical form of URL
+.nf
+.ft CW
+char* url = "http://www.foo.com/";
+url = url_cannonicalize_string(url, strlen(url), URL_STRING_URL_STYLE);
+if(url) printf("url = %s\n", url);
+.ft R
+.fi
+.PP
+.B Show the host and port of URL (netloc)
+.nf
+.ft CW
+char* url = "http://www.foo.com:7000/";
+url_t* url_object = url_object(url, strlen(url));
+if(url_object) printf("netloc = %s\n", url_netloc(url_object));
+.ft R
+.fi
+.PP
+.B Change the query part of URL and show it
+.nf
+.ft CW
+char* url = "http://www.foo.com/cgi-bin/bar?param=1";
+url_t* url_object = url_object(url, strlen(url));
+if(url_object) {
+	url_object->query = "param=2";
+	printf("url = %s\n", url_url(url_object));
+}
+.ft R
+.fi
+.SH AUTHOR
+Loic Dachary loic@ceic.com Civil Engineering in Cyberspace
+.SH SEE ALSO
+rfc1738

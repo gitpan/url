@@ -1,0 +1,6 @@
+#
+# Makefile.PL.in was hand made
+#
+
+swig -perl5 -shadow url2furl.i
+

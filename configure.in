@@ -1,0 +1,14 @@
+AC_INIT(url.c)
+
+AC_CONFIG_HEADER(config.h)
+AC_PROG_CC
+
+AC_CHECK_HEADERS(stdlib.h string.h ctype.h)
+AC_CHECK_FUNCS(strchr memcpy)
+
+AC_HEADER_STDC
+
+VERSION=1.0
+AC_SUBST(VERSION)
+
+AC_OUTPUT(Makefile perl/Makefile.PL)

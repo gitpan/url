@@ -1,0 +1,45 @@
+#!/bin/sh
+#
+#   Copyright (C) 1997, 1998
+#   	Free Software Foundation, Inc.
+#
+#   This program is free software; you can redistribute it and/or modify it
+#   under the terms of the GNU General Public License as published by the
+#   Free Software Foundation; either version 2, or (at your option) any
+#   later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+#
+
+testing() {
+  if [ ! -d t ] ; then mkdir t ; fi
+  for name in $*
+  do
+    echo "testing $name"
+    if [ "$init" ]
+    then 
+      eval $name 2>&1 | cat > t/$name.expect
+    else
+      if [ "$debug" ]
+      then
+        $name
+      else
+        eval $name 2>&1 | cat > t/$name.out
+        diff t/$name.out t/$name.expect
+      fi
+    fi
+  done
+}
+
+all() {
+t_url < t_url.input
+}
+
+testing ${*:-"all"}
